@@ -1,0 +1,40 @@
+
+﻿Step 1: create the spring start project
+right click in the explorer and create a new spring start project
+rename project
+select Java 8
+change the packaging from Jar to War
+rename the Package com.abby.(projectname all lowercase)
+select 'Spring Boot DevTools' AND 'Spring Web'
+launch project
+
+Step 2: Setup the controller package
+right click the package com.abby.(projectname) and create a new package with .controllers added to the end
+(this is where our controllers will go)
+
+Step 3: Setup the views folder
+go through the folders src main webapp (should be near the bottom) and add a new folder called "WEB-INF" in webapp
+(this is where our JSPs go)
+
+now right click WEB-INF, add new (go to other add bottom of selection) and add a jsp file.
+Traditionally, the first one is called 'index'
+
+once you have created a jsp file add this to the top:
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
+(we need this to use c:out ect. to display data on our html. This will have to go on every page we created)
+
+Step 4: build dependencies needed for JSTL to work
+now, go to pom.xml (should be at the bottom of the explorer) and add these dependencies:
+<dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+(these dependencies are needed to make JSTL (AKA Jinja) work on our JSP (AKA HTML) )
+
+now, go to src/main/resources/application.properties in the explorer and add this:
+spring.mvc.view.prefix=/WEB-INF/
+(MVC means Models, Views and Controllers. we're telling the computer that our "views" folder is called WEB-INF)
