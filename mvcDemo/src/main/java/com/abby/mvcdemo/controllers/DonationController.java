@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.abby.mvcdemo.models.Donation;
 import com.abby.mvcdemo.services.DonationService;
+import com.abby.mvcdemo.services.UserService;
 
 
 @Controller
@@ -22,8 +23,10 @@ import com.abby.mvcdemo.services.DonationService;
 public class DonationController {
 
 	public final DonationService donationServ;
-	public DonationController(DonationService donationServ) {
+	public final UserService userServ;
+	public DonationController(DonationService donationServ, UserService userServ) {
 		this.donationServ = donationServ;
+		this.userServ = userServ;
 	}
 	
 	@GetMapping("/all")
@@ -40,8 +43,9 @@ public class DonationController {
 	
 	@GetMapping("/new")
 	public String newDonation(
-			@ModelAttribute("donation") Donation donation
+			@ModelAttribute("donation") Donation donation, Model model
 			) {
+		model.addAttribute("allUsers", userServ.findAll());
 		return "donation/createForm.jsp";
 	}
 	
@@ -49,11 +53,11 @@ public class DonationController {
 	public String processNewDonation (
 			@Valid @ModelAttribute("donation")Donation donation, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("allDonations", donationServ.findAll());
-			return "donation/showAllWithCreate.jsp";
+			model.addAttribute("allUsers", userServ.findAll());
+			return "donation/createForm.jsp";
 		}
 		donationServ.create(donation);
-		return "redirect:/donation/all/new";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/edit/{id}")

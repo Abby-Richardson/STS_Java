@@ -1,10 +1,10 @@
-package com.abby.saveTravels;
+package com.abby.dojosandninjas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SaveTravelsApplicationTests {
+class DojosAndNinjasApplicationTests {
 
 	@Test
 	void contextLoads() {

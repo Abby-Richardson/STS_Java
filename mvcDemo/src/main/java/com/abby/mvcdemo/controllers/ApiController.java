@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abby.mvcdemo.models.Donation;
+import com.abby.mvcdemo.models.User;
 import com.abby.mvcdemo.services.DonationService;
 
 @RestController
@@ -34,7 +35,7 @@ public class ApiController {
 	@PutMapping("/donations/{id}")
 	public Donation editOneDonation(@PathVariable("id")Long id, 
 			@RequestParam("donationName")String donationName, 
-			@RequestParam("donor")String donor, 
+			@RequestParam("donor")User donor, 
 			@RequestParam("quantity")Integer quantity) {
 		Donation donationToBeUpdated = donationServ.getOne(id);
 		donationToBeUpdated.setDonationName(donationName);
@@ -59,13 +60,13 @@ public class ApiController {
 		return donationServ.findAll();
 	}
 	
-	@PostMapping("/donations")
-	public Donation createDonation(
-			@RequestParam("donationName")String donationName, 
-			@RequestParam("donor")String donor, 
-			@RequestParam("quantity")Integer quantity) {
-		
-		Donation newDonation = new Donation(donationName, donor, quantity);
-		return donationServ.create(newDonation);
-	}
+//	@PostMapping("/donations")
+//	public Donation createDonation(
+//			@RequestParam("donationName")String donationName, 
+//			@RequestParam("donor")String donor, 
+//			@RequestParam("quantity")Integer quantity) {
+//		
+//		Donation newDonation = new Donation(donationName, donor, quantity);
+//		return donationServ.create(newDonation);
+//	}
 }

@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -19,7 +22,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity //declares that its going to be a part of MySQL
-@Table(name="donation") // gives the table the name of the model
+@Table(name="donations") // gives the table the name of the model
 public class Donation {
 	//Attributes
 	@Id
@@ -30,14 +33,18 @@ public class Donation {
 	@NotEmpty(message= "Donation name is required!")//validation for not null
 	private String donationName; //The persistent layer will change this for you (don't try and snake case, will cause errors later on)
 	
-	@Size(min = 2, max = 50)
-	@NotEmpty(message = "Description is required!")
-	private String donor;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="donor_id")
+    private User donor;
+	
 	
 	@Min(0)//validation for ints
 	@Max(1000)//validation for ints
 	@NotNull
 	private Integer quantity; //wrapper class so our persistent class can handle the data type
+	
 	
 	@Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -50,8 +57,7 @@ public class Donation {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Donation (String donationName, String donor, Integer quantity) {
-		super();
+	public Donation (String donationName, User donor, Integer quantity) {
 		this.donationName = donationName;
 		this.donor = donor;
 		this.quantity = quantity;
@@ -89,11 +95,11 @@ public class Donation {
 		this.donationName = donationName;
 	}
 
-	public String getDonor() {
+	public User getDonor() {
 		return donor;
 	}
 
-	public void setDonor(String donor) {
+	public void setDonor(User donor) {
 		this.donor = donor;
 	}
 

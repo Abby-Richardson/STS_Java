@@ -25,11 +25,14 @@
 		<form:input path="quantity" type="number"/>
 		<form:errors path="quantity"/>
 	</div>
-	<div>	
-		<form:label path="donor">Donor:</form:label>
-		<form:input path="donor" type="text"/>
-		<form:errors path="donor"/>
-	</div>
+	<form:select path="donor">
+		<c:forEach var="user" items="${allUsers}">
+			<form:option value="${user.id}" path="donor">
+				<c:out value="${user.userName}"/>
+			</form:option>
+		</c:forEach>
+	
+	</form:select>
 	<button type="submit">Create Donation</button>
 </form:form>
 </body>
